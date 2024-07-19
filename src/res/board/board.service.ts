@@ -5,6 +5,10 @@ import genId from 'src/utils/genId.util';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { readFile } from 'fs/promises';
+import { config } from 'dotenv';
+config();
+
+let env = process.env;
 
 @Injectable()
 export class BoardService {
@@ -41,10 +45,7 @@ export class BoardService {
       writerId: request.user ? request.user.userId : 1111, // For dev
       articleId: aId,
       category: newBoardData.category,
-      img: {
-        fileName: imgFileName.toString(),
-        fileBuffer: imgBuffer
-      },
+      imgUrl: `${env.HTTP_PROTOCOL}://${env.DOMAIN}/api/upload/${imgFileName}`,
       title: newBoardData.title,
       content: newBoardData.content,
       likes: 0, hates: 0, views: 0
