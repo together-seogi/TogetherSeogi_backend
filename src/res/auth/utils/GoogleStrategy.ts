@@ -2,6 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-google-oauth20';
 import { AuthService } from '../auth.service';
+import { config } from 'dotenv';
+config();
+
+let env = process.env;
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy) {
@@ -9,9 +13,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     @Inject('AUTH_SERVICE') private readonly authService: AuthService,
   ) {
     super({
-      clientID: '',
-      clientSecret: '',
-      callbackURL: 'http://localhost:3001/api/auth/google/redirect',
+      clientID: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      callbackURL: `${env.HTTP_PROTOCOL}://${env.DOMAIN}${env.GOOGLE_REDIRECT_PARAM}`,
       scope: ['profile', 'email'],
     });
   }

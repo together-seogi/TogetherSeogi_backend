@@ -1,7 +1,7 @@
 interface User {
-    userId: Number;
+    userId?: Number;
     userNick: String;
-    level: Number;
+    level?: Number;
     providerData: {
         email: String;
         name: String;
@@ -9,3 +9,5 @@ interface User {
     }
     profilePhoto?: String
 }
+
+export default User;
