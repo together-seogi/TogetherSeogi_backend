@@ -1,34 +1,26 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { MessageService } from './message.service';
+import Msg from 'src/interface/message.interface';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 
+// 쪽지 컨트롤러
 @Controller('message')
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
-  @Post()
-  create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messageService.create(createMessageDto);
+  @Post() // Send Message
+  createMessage(@Body() newMsg: Msg) {
+    return this.messageService.create(newMsg);
   }
 
-  @Get()
-  findAll() {
-    return this.messageService.findAll();
+  @Get(':receiverId')
+  findOByReceiverId(@Param('receiverId') rid: Number) {
+    return this.messageService.findByReceiverId(+rid);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.messageService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
-    return this.messageService.update(+id, updateMessageDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.messageService.remove(+id);
+  @Get(':receiverId/:dateMs')
+  findAll(@Param('receiverId') rid: Number, @Param('dateMs') dms: Number) {
+    return this.messageService.findOneByMsgData(rid, dms);
   }
 }

@@ -1,9 +1,9 @@
 interface Msg {
     senderId: Number;
     receiverId: Number;
-    createdAt: Date;
+    createdAt?: Date;
     content: String;
-    isRead: Boolean
+    isRead?: Boolean
 };
 
 export default Msg;

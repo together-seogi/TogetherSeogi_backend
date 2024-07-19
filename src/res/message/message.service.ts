@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
+import Msg from 'src/interface/message.interface';
+import messageSchema from 'src/models/message.schema';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 
 @Injectable()
 export class MessageService {
-  create(createMessageDto: CreateMessageDto) {
-    return 'This action adds a new message';
+  async create(newMsg: Msg) {
+    const msg = await new messageSchema({
+      senderId: newMsg.senderId,
+      receiverId: newMsg.receiverId,
+      content: newMsg.content
+    });
+    return msg;
   }
 
-  findAll() {
-    return `This action returns all message`;
+  async findByReceiverId(receiverId: number) {
+    const msgs = (await messageSchema.find({ receiverId: receiverId })).reverse();
+    return msgs ?? null;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} message`;
-  }
-
-  update(id: number, updateMessageDto: UpdateMessageDto) {
-    return `This action updates a #${id} message`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} message`;
+  async findOneByMsgData(receiverId: Number, dateMs: Number) {
+    const message = await messageSchema.findOne({
+      receiverId: receiverId,
+      createdAt: dateMs
+    });
+    if (!message) return null;
+    else return message;
   }
 }
