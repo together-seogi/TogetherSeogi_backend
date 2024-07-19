@@ -1,6 +1,7 @@
 interface User {
     userId?: Number;
     userNick?: String;
+    abutMe: String;
     level?: Number;
     providerData: {
         email: String;
