@@ -79,7 +79,7 @@ export class BoardController {
 
   @Post('write') // Body & Image(multer) 추가 필요
   @UseInterceptors(FileInterceptor('file', uploadOptions))
-  createArticle(@UploadedFile() file: Express.Multer.File, @Body() newArticleData: Board, @Req() req: Request) {
+  async createArticle(@UploadedFile() file: Express.Multer.File, @Body() newArticleData: Board, @Req() req: Request) {
     return this.boardService.createArticle(newArticleData, file.filename, req);
   }
 
