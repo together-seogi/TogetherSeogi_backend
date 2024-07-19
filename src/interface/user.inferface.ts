@@ -1,6 +1,6 @@
 interface User {
     userId?: Number;
-    userNick: String;
+    userNick?: String;
     level?: Number;
     providerData: {
         email: String;

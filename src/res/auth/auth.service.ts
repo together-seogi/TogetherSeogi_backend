@@ -9,7 +9,7 @@ let env = process.env;
 @Injectable()
 export class AuthService {
 	constructor() {}
-	// googleStrategy.ts에서 참조
+	// googleStrategy.ts에서 참조 - validate
 	async validateUser(details: User) {
 		console.log('AuthService');
 		console.log(details);

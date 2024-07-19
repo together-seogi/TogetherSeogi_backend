@@ -25,8 +25,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     console.log(refreshToken);
     console.log(profile);
     const user = await this.authService.validateUser({
-      email: profile.emails[0].value,
-      displayName: profile.displayName,
+      providerData: {
+        email: profile.emails[0].value,
+        name: profile.displayName,
+        uid: profile.id
+      },
+      profilePhoto: profile.photos[0].value
     });
     console.log('Validate');
     console.log(user);
