@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { GoogleAuthGuard } from './utils/Guards';
 import UserIntro from 'src/interface/userintro.interface';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private readonly authService: AuthService) {}
   @Get('google/login')
   @UseGuards(GoogleAuthGuard)
   handleLogin() {
@@ -28,8 +30,13 @@ export class AuthController {
     }
   }
 
+  @Get('userdata/:userid')
+  getUserData(@Param('userid') uid: Number) {
+    return this.authService.findUser(uid);
+  }
+
   @Patch('editintro')
   editintro(@Body() intro: UserIntro) {
     return this.editintro(intro);
-  } 
+  }
 }

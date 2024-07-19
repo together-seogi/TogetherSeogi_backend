@@ -3,7 +3,7 @@ import mongo from 'mongoose';
 const authSchema = new mongo.Schema({
     userId: { type: Number, required: true }, // url param에 사용 (content 시청 시)
     userNick: { type: String, required: true },
-    aboutMe: { type: String, required: true },
+    aboutMe: { type: String, default: "자기소개가 설정되지 않았습니다." },
     level: { type: Number, required: true },
     providerData: {
         email: { type: String, required: true },

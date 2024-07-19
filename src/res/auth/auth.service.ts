@@ -38,15 +38,15 @@ export class AuthService {
 		return newUser;
 	}
 
-	async findUser(userId: number) {
-		const user = await userSchema.findOne({ userId: userId });
-		return user;
-	}
-
 	async editIntro(intro: UserIntro) {
 		const user = await userSchema.findOne({ userId: intro.userId });
 		user.aboutMe = intro.aboutMe.toString();
 		await user.save();
 		return 'OK';
+	}
+
+	async findUser(userId: Number) {
+		const user = await userSchema.findOne({ userId: userId });
+		return user;
 	}
 }
