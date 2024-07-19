@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import boardSchema from 'src/models/board.schema';
+import Board from 'src/interface/board.interface';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 
 @Injectable()
 export class BoardService {
-  create(createBoardDto: CreateBoardDto) {
-    return 'This action adds a new board';
+  async getArticlesByCategory(category: String) {
+    
   }
 
-  findAll() {
-    return `This action returns all board`;
+  async getArticlesByLikesAndCategory(category: String) {
+
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} board`;
+  async getArticlesByArticleId(articleId: Number) {
+
   }
 
+  async getArticlesByUserId(userId: Number) {
+
+  }
+
+  async createArticle(createBoardDto: CreateBoardDto) {
+
+  }
+
+  // Edit의 경우 이미지 처리 관련하여 한번 더 체크하기
   update(id: number, updateBoardDto: UpdateBoardDto) {
     return `This action updates a #${id} board`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} board`;
+  async removeByArticleId(id: number) {
+    const delArticle = await boardSchema.deleteOne({ articleId: id });
+    return delArticle;
   }
 }

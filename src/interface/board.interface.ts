@@ -9,6 +9,7 @@ interface Board {
     title: String;
     content: String;
     likes?: Boolean; hates?: Boolean;
+    views: Number;
     createdAt: Date;
 }
 
