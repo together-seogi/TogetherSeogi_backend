@@ -1,14 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { setupSwagger } from './utils/swagger.util';
+import { linkToDatabase } from './utils/db.util';
 import * as session from 'express-session';
 import * as passport from 'passport';
+import { config } from 'dotenv';
+config();
+
+let env = process.env;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.use(
     session({
-      secret: '',
+      secret: env.SESSION_SECRET,
       saveUninitialized: false,
       resave: false,
       cookie: {
@@ -18,6 +24,15 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  await app.listen(3001);
+  linkToDatabase();
+  if (env.MODE == "DEV") {
+		try {
+			setupSwagger(app);
+			console.log("Swagger is enabled");
+		} catch (e) {
+			console.error(e);
+		}
+	}
+  await app.listen(env.PORT);
 }
 bootstrap();
