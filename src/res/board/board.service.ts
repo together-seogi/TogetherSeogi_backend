@@ -17,6 +17,18 @@ export class BoardService {
     return imageBuffer.buffer;
   }
 
+  async getMainArticles() {
+    const tipArticles = await boardSchema.find({ category: 'tips' })
+    .limit(3).sort({"likes": -1});
+    const eatArticles = await boardSchema.find({ category: 'eats' })
+    .limit(4).sort({"likes": -1});
+    const goodArticles = await boardSchema.find({ category: 'good' })
+    .limit(4).sort({"likes": -1});
+    // @ts-ignore
+    let returnArr = [...tipArticles, ...eatArticles, ...goodArticles];
+    return returnArr;
+  }
+
   // 50개 리턴, 카운트별로 스킵기능 추가
   async getArticlesByCategory(category: String, count: number) {
     const articles = await boardSchema.find({ category: category })
@@ -24,18 +36,22 @@ export class BoardService {
     return articles;
   }
 
-  // Gajang Joayo Suga Nopeun 4gaeman print
-  // i cannot type korean well (fuck rhel)
-  async getArticlesByLikesAndCategory(category: String) {
-    
-  }
-
   async getArticlesByArticleId(articleId: Number) {
-    
+    const article = await boardSchema.findOne({ articleId: articleId });
+    return article;
   }
 
-  async getArticlesByUserId(userId: Number) {
+  async getArticlesByUserId(userId: Number, count: number) {
+    const articles = await boardSchema.find({ writerId: userId })
+    .skip((count - 1) * 50).limit(50).sort({ "createdAt": -1 });
+    return articles;
+  }
 
+  async findArticleWithWord(word: string, count: number) {
+    const regex = new RegExp(word, "i");
+    const articles = await boardSchema.find({ content: regex })
+    .skip((count-1)*50).limit(50).sort({"createdAt":-1});
+    return articles;
   }
 
   async createArticle(newBoardData: Board, imgFileName: string, request: any) {

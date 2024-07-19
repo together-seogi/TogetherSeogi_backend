@@ -2,10 +2,7 @@ interface Board {
     writerId: Number;
     articleId: Number;
     category: String;
-    // mainImage: {
-    //     fileName: String;
-    //     filePath: String;
-    // }
+    imgUrl?: String;
     title: String;
     content: String;
     likes?: Boolean; hates?: Boolean;

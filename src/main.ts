@@ -11,7 +11,7 @@ let env = process.env;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api'); // /api/upload/undef-fejifd.png
   app.use(
     session({
       secret: env.SESSION_SECRET,

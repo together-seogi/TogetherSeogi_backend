@@ -4,7 +4,7 @@ const boardSchema = new mongo.Schema({
     writerId: { type: Number, required: true },
     articleId: { type: Number, required: true },
     category: { type: String, required: true }, // 생활 팁, 같이 먹어요, 이거 좋아요
-    imgFileName: { type: String, required: true },
+    imgUrl: { type: String, required: true },
     title: { type: String, required: true },
     content: { type: String, required: true },
     likes: { type: Boolean, default: 0 }, hates: { type: Boolean, default: 0 },

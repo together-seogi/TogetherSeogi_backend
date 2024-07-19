@@ -54,16 +54,15 @@ const uploadOptions: MulterOptions = {
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
+  @Get('main')
+  getArticlesByLikesAndCategory() {
+    return this.boardService.getMainArticles();
+  }
+
   // GET 메서드에서는 1회에 50개씩 전송할 예정
   @Get('ct/:category/:count')
   getArticlesByCategory(@Param('category') ct: String, @Param('count') cnt: number) {
     return this.boardService.getArticlesByCategory(ct, cnt);
-  }
-
-  // 여기서는 좋아요 높은 순으로 4개씩 받아올 예정
-  @Get('likes/:category/')
-  getArticlesByLikesAndCategory(@Param('category') ct: String) {
-    return this.boardService.getArticlesByLikesAndCategory(ct);
   }
 
   @Get('aid/:articleId')
@@ -73,19 +72,19 @@ export class BoardController {
 
   // 여기도 1번에 50개씩
   @Get('uid/:userId/:count')
-  getArticlesByUserId(@Param('userId') uid: Number) {
-    return this.boardService.getArticlesByUserId(uid);
+  getArticlesByUserId(@Param('userId') uid: Number, @Param('count') cnt: number) {
+    return this.boardService.getArticlesByUserId(uid, cnt);
+  }
+
+  @Get('find/:word/:count')
+  findArticleWithWord(@Param('word') word: string, @Param('count') count: number) {
+    return this.boardService.findArticleWithWord(word, count);
   }
 
   @Post('write') // Body & Image(multer) 추가 필요
   @UseInterceptors(FileInterceptor('file', uploadOptions))
   async createArticle(@UploadedFile() file: Express.Multer.File, @Body() newArticleData: Board, @Req() req: Request) {
     return this.boardService.createArticle(newArticleData, file.filename, req);
-  }
-
-  @Put('edit')
-  updateArticle(@Param('id') id: string, @Body() updateBoardDto: Board) {
-    return this.boardService.updateArticle(updateBoardDto);
   }
 
   @Delete('del/:id')
