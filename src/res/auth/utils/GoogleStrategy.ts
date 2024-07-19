@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-google-oauth20';
 import { AuthService } from '../auth.service';
 import { config } from 'dotenv';
+import userSchema from 'src/models/user.schema';
 config();
 
 let env = process.env;
@@ -24,10 +25,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     console.log(accessToken);
     console.log(refreshToken);
     console.log(profile);
+    let usernick;
+    const existUser = await userSchema.findOne({ providerData: {email: profile.emails[0].value}});
+    if (existUser) usernick = existUser.userNick; else usernick = profile.displayName;
     const user = await this.authService.validateUser({
+      userNick: usernick,
       providerData: {
         email: profile.emails[0].value,
-        name: profile.displayName,
+        name: `${profile.name.familyName + profile.name.givenName ? profile.name.givenName : profile.displayName}`,
         uid: profile.id
       },
       profilePhoto: profile.photos[0].value
