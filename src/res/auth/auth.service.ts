@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import userSchema from 'src/models/user.schema';
 import User from 'src/interface/user.inferface';
+import genId from 'src/utils/genId.util';
 import { config } from 'dotenv';
 config();
 
@@ -21,8 +22,9 @@ export class AuthService {
 		console.log(user);
 		if (user) return user;
 		console.log('User not found. Creating...');
+		let uid = await genId();
 		const newUser = await new userSchema({
-			userId: 1111,
+			userId: uid,
 			userNick: details.userNick,
 			level: 1,
 			providerData: {

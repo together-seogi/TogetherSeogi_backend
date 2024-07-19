@@ -32,7 +32,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
       userNick: usernick,
       providerData: {
         email: profile.emails[0].value,
-        name: `${profile.name.familyName + profile.name.givenName ? profile.name.givenName : profile.displayName}`,
+        name: profile.displayName,
         uid: profile.id
       },
       profilePhoto: profile.photos[0].value
