@@ -4,7 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './res/auth/auth.module';
 import { BoardModule } from './res/board/board.module';
-import { MessageModule  } from './res/message/message.module';
+import { MessageModule } from './res/message/message.module';
 import { config } from 'dotenv';
 config();
 
