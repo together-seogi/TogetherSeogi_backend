@@ -10,7 +10,7 @@ let env = process.env;
 
 @Injectable()
 export class AuthService {
-	constructor() {}
+	constructor() { }
 	// googleStrategy.ts에서 참조 - validate
 	async validateUser(details: User) {
 		console.log('AuthService');
@@ -22,20 +22,22 @@ export class AuthService {
 		});
 		console.log(user);
 		if (user) return user;
-		console.log('User not found. Creating...');
-		let uid = await genId();
-		const newUser = await new userSchema({
-			userId: uid,
-			userNick: details.userNick,
-			level: 1,
-			providerData: {
-				email: details.providerData.email,
-				name: details.providerData.name,
-				uid: details.providerData.uid
-			},
-			profilePhoto: details.profilePhoto ?? null
-		}).save();
-		return newUser;
+		else {
+			console.log('User not found. Creating...');
+			let uid = await genId();
+			const newUser = await new userSchema({
+				userId: uid,
+				userNick: details.userNick,
+				level: 1,
+				providerData: {
+					email: details.providerData.email,
+					name: details.providerData.name,
+					uid: details.providerData.uid
+				},
+				profilePhoto: details.profilePhoto ?? null
+			}).save();
+			return newUser;
+		}
 	}
 
 	async editIntro(intro: UserIntro) {

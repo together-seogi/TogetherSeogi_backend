@@ -6,6 +6,7 @@ import { join } from 'path';
 export class UploadService {
     getFile(filePath: string): StreamableFile {
         const file = createReadStream(filePath);
+        console.log(file);
         return new StreamableFile(file);
       }
 }

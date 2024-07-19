@@ -76,9 +76,9 @@ export class BoardController {
     return this.boardService.getArticlesByUserId(uid, cnt);
   }
 
-  @Get('find/:word/:count')
-  findArticleWithWord(@Param('word') word: string, @Param('count') count: number) {
-    return this.boardService.findArticleWithWord(word, count);
+  @Get('find/:word')
+  findArticleWithWord(@Param('word') word: string) {
+    return this.boardService.findArticleWithWord(word, 1);
   }
 
   @Post('write') // Body & Image(multer) 추가 필요

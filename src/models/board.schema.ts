@@ -7,7 +7,7 @@ const boardSchema = new mongo.Schema({
     imgUrl: { type: String, required: true },
     title: { type: String, required: true },
     content: { type: String, required: true },
-    likes: { type: Boolean, default: 0 }, hates: { type: Boolean, default: 0 },
+    likes: { type: Number, default: 0 }, hates: { type: Number, default: 0 },
     views: { type: Number, default: 0 }, 
     createdAt: { type: Date, default: Date.now() }
 });
