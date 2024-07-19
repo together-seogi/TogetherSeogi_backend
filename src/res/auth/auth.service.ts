@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import userSchema from 'src/models/user.schema';
 import User from 'src/interface/user.inferface';
+import UserIntro from 'src/interface/userintro.interface';
 import genId from 'src/utils/genId.util';
 import { config } from 'dotenv';
 config();
@@ -40,5 +41,12 @@ export class AuthService {
 	async findUser(userId: number) {
 		const user = await userSchema.findOne({ userId: userId });
 		return user;
+	}
+
+	async editIntro(intro: UserIntro) {
+		const user = await userSchema.findOne({ userId: intro.userId });
+		user.aboutMe = intro.aboutMe.toString();
+		await user.save();
+		return 'OK';
 	}
 }

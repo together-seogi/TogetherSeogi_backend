@@ -1,6 +1,7 @@
-import { Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { GoogleAuthGuard } from './utils/Guards';
+import UserIntro from 'src/interface/userintro.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -28,5 +29,7 @@ export class AuthController {
   }
 
   @Patch('editintro')
-  
+  editintro(@Body() intro: UserIntro) {
+    return this.editintro(intro);
+  } 
 }
