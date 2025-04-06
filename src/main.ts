@@ -24,7 +24,7 @@ async function bootstrap() {
     }),
   );
   const corsOptions: CorsOptions = {
-    origin: ['http://localhost:5173'], // env에서 FRONTEND_URL을 설정하세요
+    origin: ['http://localhost:5173', 'https://tseogi.juany.kr'], // env에서 FRONTEND_URL을 설정하세요
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: false,
     allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
