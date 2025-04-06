@@ -11,8 +11,8 @@ config();
 let env = process.env;
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {cors: false});
-  app.setGlobalPrefix('api'); // /api/upload/undef-fejifd.png
+  const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
   app.use(
     session({
       secret: env.SESSION_SECRET,
@@ -24,23 +24,24 @@ async function bootstrap() {
     }),
   );
   const corsOptions: CorsOptions = {
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173'], // env에서 FRONTEND_URL을 설정하세요
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true,
+    credentials: false,
+    allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
   };
 
   app.enableCors(corsOptions);
   app.use(passport.initialize());
   app.use(passport.session());
-  linkToDatabase();
+  // linkToDatabase();
   if (env.MODE == "DEV") {
-		try {
-			setupSwagger(app);
-			console.log("Swagger is enabled");
-		} catch (e) {
-			console.error(e);
-		}
-	}
+    try {
+      setupSwagger(app);
+      console.log("Swagger is enabled");
+    } catch (e) {
+      console.error(e);
+    }
+  }
   await app.listen(env.PORT);
 }
 bootstrap();
